@@ -15,7 +15,9 @@ const timeSlider = document.getElementById("time-slider");
 
 // Function to format time
 function formatTime(hours, minutes) {
-    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+    const formattedHours = String(Math.floor(hours) % 24).padStart(2, "0");
+    const formattedMinutes = String(minutes).padStart(2, "0");
+    return `${formattedHours}:${formattedMinutes}`;
 }
 
 // Function to update city times
@@ -24,15 +26,21 @@ function updateTimes(offset = 0) {
     const berlinHours = now.getUTCHours() + 1 + offset; // Berlin is UTC+1
     const berlinMinutes = now.getUTCMinutes();
 
-    berlinTime.textContent = formatTime(berlinHours % 24, berlinMinutes);
+    berlinTime.textContent = formatTime(berlinHours, berlinMinutes);
 
     // Update all other cities
     for (const city in cityOffsets) {
         if (city === "berlin") continue;
         const cityTime = new Date(now.getTime());
         const adjustedHours =
-            (berlinHours + cityOffsets[city]) % 24; // Adjust hours based on offset
-        const displayTime = formatTime(adjustedHours, berlinMinutes);
+            berlinHours + cityOffsets[city]; // Adjust hours based on offset
+        const adjustedMinutes =
+            berlinMinutes + (adjustedHours % 1) * 60; // Handle fractional hours
+        const normalizedMinutes = adjustedMinutes % 60;
+        const normalizedHours =
+            adjustedHours + Math.floor(adjustedMinutes / 60);
+
+        const displayTime = formatTime(normalizedHours, normalizedMinutes);
 
         if (city === "manchester") manchesterTime.textContent = displayTime;
         if (city === "mumbai") mumbaiTime.textContent = displayTime;
