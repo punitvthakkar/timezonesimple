@@ -1,0 +1,44 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.city-time {
+    text-align: center;
+}
+
+.city-time h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.city-time .time {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.scroll-wheel {
+    position: fixed;
+    bottom: 20px;
+    width: 80%;
+}
+
+#time-slider {
+    width: 100%;
+    background: #444;
+    accent-color: #06bcee;
+}
